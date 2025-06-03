@@ -8,8 +8,6 @@ A command-line issue management system built with Python ORM.
 - Lightweight and easy to extend
 
 ## Installation
-
 1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/IssueTrackerCLI.git
-   cd IssueTrackerCLI
+   
+   

@@ -59,56 +59,70 @@ def list_issues():
         print(f"ID: {issue.id}, Title: {issue.title}, Priority: {issue.priority}, Status: {issue.status}, Created by: {issue.user.username}")
     session.close()
 
-def main():
-    parser = argparse.ArgumentParser(description="IssueTracker CLI")
-    subparsers = parser.add_subparsers(dest='command')
-
-    # User commands
-    user_parser = subparsers.add_parser('user', help='Manage users')
-    user_subparsers = user_parser.add_subparsers(dest='user_command')
-    
-    create_user_parser = user_subparsers.add_parser('create', help='Create a new user')
-    create_user_parser.add_argument('username', help='Username')
-    create_user_parser.add_argument('email', help='Email')
-    
-    delete_user_parser = user_subparsers.add_parser('delete', help='Delete a user')
-    delete_user_parser.add_argument('username', help='Username')
-    
-    list_users_parser = user_subparsers.add_parser('list', help='List all users')
-
-    # Issue commands
-    issue_parser = subparsers.add_parser('issue', help='Manage issues')
-    issue_subparsers = issue_parser.add_subparsers(dest='issue_command')
-    
-    create_issue_parser = issue_subparsers.add_parser('create', help='Create a new issue')
-    create_issue_parser.add_argument('title', help='Title')
-    create_issue_parser.add_argument('description', help='Description')
-    create_issue_parser.add_argument('priority', choices=['Low', 'Medium', 'High'], help='Priority')
-    create_issue_parser.add_argument('status', choices=['Open', 'In Progress', 'Resolved'], help='Status')
-    create_issue_parser.add_argument('username', help='Username of the creator')
-    
-    delete_issue_parser = issue_subparsers.add_parser('delete', help='Delete an issue')
-    delete_issue_parser.add_argument('issue_id', type=int, help='Issue ID')
-    
-    list_issues_parser = issue_subparsers.add_parser('list', help='List all issues')
-
-    args = parser.parse_args()
-
-    if args.command == 'user':
-        if args.user_command == 'create':
-            create_user(args.username, args.email)
-        elif args.user_command == 'delete':
-            delete_user(args.username)
-        elif args.user_command == 'list':
+def manage_users():
+    while True:
+        print("\nManage Users:")
+        print("1. Create User")
+        print("2. Delete User")
+        print("3. List Users")
+        print("4. Back to Main Menu")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            username = input("Enter username: ")
+            email = input("Enter email: ")
+            create_user(username, email)
+        elif choice == '2':
+            username = input("Enter username to delete: ")
+            delete_user(username)
+        elif choice == '3':
             list_users()
-    elif args.command == 'issue':
-        if args.issue_command == 'create':
-            create_issue(args.title, args.description, args.priority, args.status, args.username)
-        elif args.issue_command == 'delete':
-            delete_issue(args.issue_id)
-        elif args.issue_command == 'list':
+        elif choice == '4':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+def manage_issues():
+    while True:
+        print("\nManage Issues:")
+        print("1. Create Issue")
+        print("2. Delete Issue")
+        print("3. List Issues")
+        print("4. Back to Main Menu")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            title = input("Enter issue title: ")
+            description = input("Enter issue description: ")
+            priority = input("Enter issue priority (Low, Medium, High): ")
+            status = input("Enter issue status (Open, In Progress, Resolved): ")
+            username = input("Enter username of the creator: ")
+            create_issue(title, description, priority, status, username)
+        elif choice == '2':
+            issue_id = int(input("Enter issue ID to delete: "))
+            delete_issue(issue_id)
+        elif choice == '3':
             list_issues()
+        elif choice == '4':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+def main_menu():
+    while True:
+        print("\nWelcome to IssueTracker CLI!")
+        print("1. Manage Users")
+        print("2. Manage Issues")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            manage_users()
+        elif choice == '2':
+            manage_issues()
+        elif choice == '3':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == '__main__':
     create_tables()
-    main()
+    main_menu()
