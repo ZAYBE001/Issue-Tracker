@@ -108,7 +108,7 @@ def manage_issues():
 
 def main_menu():
     while True:
-        print("\nWelcome to IssueTracker CLI!")
+        print("\n🔎Welcome to IssueTracker CLI!📍")
         print("1. Manage Users")
         print("2. Manage Issues")
         print("3. Exit")
